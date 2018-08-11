@@ -1,5 +1,15 @@
-from collections import defaultdict
+import logging
 import random
+import sys
+from collections import defaultdict
+from logging import StreamHandler
+
+logger = logging.getLogger('euchre.rumble')
+logging.basicConfig(filename='rumble.log',
+                    level=logging.INFO,
+                    format='%(levelname) -10s %(asctime)s %(module)s at line %(lineno)d: %(message)s',
+                    datefmt="%Y-%m-%d %H:%M:%S")
+logger.addHandler(StreamHandler(sys.stdout))
 
 
 def get_partners(num_players, past_partners, max_attempts=10):
@@ -17,7 +27,7 @@ def get_partners(num_players, past_partners, max_attempts=10):
                 break
             else:
                 if not possible_partners:
-                    print('OUT OF ATTEMPTS')
+                    logger.info('out of uniqueness attempts')
                 # case 2: we'll get a unique partner or we're out of attempts for uniqueness
                 p2 = random.choice(remaining_players)
                 remaining_players.remove(p2)
